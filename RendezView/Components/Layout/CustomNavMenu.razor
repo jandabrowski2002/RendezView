@@ -1,0 +1,30 @@
+<header>
+    <nav class="menu--left" role="navigation">
+        <div class="menuToggle">
+            <input type="checkbox"/>
+            <span></span>
+            <span></span>
+            <span></span>
+            <ul class="menuItem">
+                <li class="li-shadow">
+                    <NavLink class="nav-link" href="" Match="NavLinkMatch.All">Home</NavLink>
+                </li>
+                <br/>
+                <li class="li-shadow">
+                    <NavLink class="nav-link" href="scheduler">Scheduler</NavLink>
+                </li>
+                <br/>
+                <li class="li-shadow">
+                    <NavLink class="nav-link" href="myprofile">My profile</NavLink>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+<script>
+$('li.li-shadow').click(function(){
+    $('li.li-shadow').removeClass("active")
+    $(this).addClass("active");
+});
+</script>

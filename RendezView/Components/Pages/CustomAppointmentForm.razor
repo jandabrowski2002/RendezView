@@ -1,0 +1,52 @@
+@using MediatR
+@using RendezView.Core
+@inject IMediator Mediator
+
+<EditForm Model="Appointment" OnValidSubmit="@Save">
+    <DataAnnotationsValidator/>
+    <ValidationSummary/>
+    <div class="form-floating">
+        <input @bind-value="Appointment.Title" class="form-control" id="floatingTitle" placeholder="Title">
+        <label for="floatingTitle">Enter title:</label>
+    </div>
+    <br/>
+    <div align="center">
+        <TelerikDropDownList Data="AppointmentTypes" @bind-Value="Appointment.Type"></TelerikDropDownList>
+    </div>
+    <br/>
+    <div align="center">
+        <label>Start Date:</label>
+        <TelerikDateTimePicker Format="dd/MM/yyyy HH:mm" @bind-Value="Appointment.Start"></TelerikDateTimePicker>
+    </div>
+    <br/>
+    <div align="center">
+        <label>End Date:</label>
+        <TelerikDateTimePicker Format="dd/MM/yyyy HH:mm" @bind-Value="Appointment.End"></TelerikDateTimePicker>
+    </div>
+    <br/>
+    <div class="form-floating">
+        <input @bind-value="Appointment.Description" class="form-control" id="floatingDescription" placeholder="Description">
+        <label for="floatingDescription">Provide description:</label>
+    </div>
+    <br/>
+    <div align="center">
+        <button type="submit" class="btn btn-outline-dark">Save</button>
+    </div>
+</EditForm>
+
+@code {
+    public SchedulerCreateEventArgs Args { get; set; }
+    
+    [Parameter]
+    public EventCallback Save { get; set; }
+
+    [Parameter]
+    public SchedulerAppointment Appointment { get; set; }
+
+    private List<string> AppointmentTypes = new List<string>() { "Piwo", "KD", "Urlop" };
+    
+    protected override void OnInitialized()
+    {
+        Appointment.Type = "Urlop";
+    }
+}

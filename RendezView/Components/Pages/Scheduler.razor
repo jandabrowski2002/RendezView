@@ -1,0 +1,45 @@
+@page "/scheduler"
+@using MediatR
+@using RendezView.Application.Data
+@using Telerik.Blazor.Components.Scheduler.Models
+@rendermode InteractiveServer
+@inject AppointmentsContext DbContext
+@inject IMediator Mediator
+
+<h1 align="center">Scheduler</h1>
+<div align="center">
+    <button class="create-button" onclick="@(() => OnEdit(new SchedulerEditEventArgs()))">Create an event</button>
+</div>
+<br/>
+<TelerikRootComponent>
+    <TelerikScheduler Class="scheduler"
+        Data="AppointmentsList"
+        OnDelete="@DeleteAppointment"
+        OnEdit="@OnEdit"
+        AllowCreate="true"
+        AllowDelete="true"
+        AllowUpdate="false"
+        ConfirmDelete="true"
+        @bind-Date="@SchedulerStartDate"
+        @bind-View="@SchedulerCurrentView">
+        <SchedulerViews>
+            <SchedulerDayView StartTime="@DayStart" EndTime="@DayEnd"/>
+            <SchedulerWeekView StartTime="@DayStart" EndTime="@DayEnd"/>
+            <SchedulerMonthView/>
+        </SchedulerViews>
+    </TelerikScheduler>
+    
+    <TelerikWindow Size="WindowSize.Medium" Visible="@CustomEditFormShown">
+        <WindowTitle>
+            Create an event:
+        </WindowTitle>
+        <WindowActions>
+            <WindowAction Name="Close" OnClick="CloseHandler"></WindowAction>
+        </WindowActions>
+        <WindowContent>
+            <CustomAppointmentForm
+                Appointment="@AppointmentInstance"
+                Save="CreateAppointment"/>
+        </WindowContent>
+    </TelerikWindow>
+</TelerikRootComponent>

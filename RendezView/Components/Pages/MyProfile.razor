@@ -1,0 +1,39 @@
+@page "/myprofile"
+@using MediatR
+@using RendezView.Commands
+@using User = RendezView.Core.User
+@inject IMediator Mediator
+
+<h3 align="center">MyProfile</h3>
+<p align="center">Enter your ID number:</p>
+<div align="center">
+<TelerikNumericTextBox @bind-Value="@userId"></TelerikNumericTextBox>
+</div>
+<br/>
+<div align="center">
+<button class="btn btn-primary" onclick="@FetchUserDetails()">Submit</button>
+</div>
+@if (user != null)
+{
+    <div>
+        <br/>
+        <h4 >User details</h4>
+        <br/>
+        <p><b>Name:</b> @user.Name</p>
+        <p><b>Surname:</b> @user.Surname</p>
+        <p><b>Email:</b> @user.Email</p>
+        <p><b>Contract type:</b> @user.Contract.Type</p>
+        <p><b>Leave days amount:</b> @user.Contract.LeaveDaysAmount</p>
+        <p><b>Contract Start Date:</b> @user.Contract.StartDate.ToString("dd-MM-yyyy")</p>
+    </div>
+}
+
+@code {
+    private int userId { get; set; }
+    private User user;
+
+    private async Task FetchUserDetails()
+    {
+        user = await Mediator.Send(new GetUserDetailsCommand(userId));
+    }
+}
